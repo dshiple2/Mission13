@@ -1,0 +1,50 @@
+﻿@{
+
+    ViewData["Title"] = "Contact List";
+
+}
+
+@model List<Bowler>
+    <div class="row">
+        <h1 class="col-9">@(ViewBag.SelectedTeam == "" ? "League Contact List:" : ViewBag.SelectedTeam)</h1>
+        <div >
+            <a asp-controller="Home" asp-action="BowlerEntry" class="btn btn-primary" style="width: 150px;">Add Bowler</a>
+        </div>
+        <div class="dropdown show col-1">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @(ViewBag.SelectedTeam == "" ? "Filter by Team:" : ViewBag.SelectedTeam)
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                @foreach (Team t in ViewBag.Teams)
+                {
+
+                    <a asp-controller="Home" asp-action="Filter" asp-route-teamID="@t.TeamID" class="dropdown-item"> @t.TeamName</a>
+
+                }
+            </div>
+        </div>
+    </div>
+    @foreach (Bowler b in Model)
+    {
+        <div class="card card-outline-primary m-1 p-1">
+            <div class="bg-light p-1">
+                <h4>@b.BowlerFirstName @b.BowlerMiddleInit @b.BowlerLastName </h4>
+
+            </div>
+
+            <ul>
+                <li>Address: @b.BowlerAddress</li>
+                <li>City: @b.BowlerCity</li>
+                <li>State: @b.BowlerState</li>
+                <li>Zip: @b.BowlerZip</li>
+                <li>Phone: @b.BowlerPhoneNumber</li>
+            </ul>
+            <div text-align: right>
+                <a asp-controller="Home" asp-action="Edit" asp-route-bowlerID="@b.BowlerID" class="btn btn-sm btn-primary">Edit</a>
+                <a asp-controller="Home" asp-action="Delete" asp-route-bowlerID="@b.BowlerID" class="btn btn-sm btn-danger ">Delete</a>
+            </div>
+
+
+        </div>
+    }
